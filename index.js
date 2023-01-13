@@ -83,7 +83,14 @@ const employeeQuestions = () => {
         {
             type: 'input',
             name: 'github',
-            message: "What is their GitHub username?"
+            message: "What is their GitHub username?",
+            when: ({ role }) => role === "Engineer"
+        },
+        {
+            type: 'input',
+            name: 'school',
+            message: "What school did you attend?",
+            when: ({ role }) => role === "Intern"
         },
         {
             type: 'confirmation',
@@ -93,15 +100,15 @@ const employeeQuestions = () => {
         },
     ])
     .then(newEmployee => {
-        const { role, name, id, email, github} = newEmployee;
-        let employee = new Employee (role, name, id, email, github);
+        const { role, name, id, email, github, school} = newEmployee;
+        let employee = new Employee (role, name, id, email, github, school);
 
         if (role === 'Engineer') {
             employee = new Engineer (name, id, email, github);
             console.log(employee)
 
         } else if (role === 'Intern') {
-            employee = new Intern (name, id, email, github);
+            employee = new Intern (name, id, email, school);
 
             console.log(employee)
         }
