@@ -8,8 +8,8 @@ const generateHTML = require('./src/generateHTML');
 // // team profiles
 const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
-// const Engineer = require('./lib/Engineer');
-// const Intern = require('.lib/Intern');
+const Engineer = require('./lib/Engineer');
+const Intern = require('.lib/Intern');
 
 
 // Team members array
@@ -17,8 +17,11 @@ const Manager = require('./lib/Manager');
 
 // question prompts
 const managerQuestions = () => { 
-    return inquirer.prompt([           
-        
+    return inquirer.prompt([ 
+    {   type: 'input',
+        name: 'welcome',
+        message: 'Welcome. Press return to begin building your roster.'
+    },             
     {
         type: 'input',
         name: 'name',
@@ -49,8 +52,13 @@ const managerQuestions = () => {
 };
 
 const employeeQuestions = () => {
-    [
-    
+    return inquirer.prompt([
+         {
+            type: 'list',
+            name: 'additions',
+            message: 'Would you like to add an employee?',
+            choices: ['Yes', 'No']
+         },    
         {
             type: 'list',
             name: 'role',
@@ -59,7 +67,7 @@ const employeeQuestions = () => {
         },
         {
             type: 'input',
-            name: 'title',
+            name: 'name',
             message: "What is this employee's name?"
         },
         {
@@ -81,27 +89,48 @@ const employeeQuestions = () => {
             type: 'confirmation',
             name: 'confirmNewEmployee',
             message: 'Would you like to add another employee?',
-            default: false
+            choices: ['Yes', 'No']
         },
-    ]
+    ])
     .then(newEmployee => {
-        let employee = new Employee (role, title, id, email, github);
+        const { role, name, id, email, github} = newEmployee;
+        let employee = new Employee (role, name, id, email, github);
+
+        if (role === 'Engineer') {
+            employee = new Engineer (name, id, email, github);
+            console.log(employee)
+
+        } else if (role === 'Intern') {
+            employee = new Intern (name, id, email, github);
+
+            console.log(employee)
+        }
     
-        this.teamMembers.push(newEmployee);
-        console.log(employee);
-    
-        this.employeeQuestions();
+        teamMembers.push(newEmployee);
+        
+        if (confirmNewEmployee === 'yes') {
+            return employeeQuestions(teamMembers);
+        } else {
+            return teamMembers;
+        }
+        
     })
 };
  
 
 // create HTML using fs - file system
-const writeToFile = (data) => {
+const writeToFile = data => {
 fs.writeFile('./dist/index.html', data, err => {
-    if (err) throw new Error(err);
+    if (err) {
+        console.log(err);
+        return;
+    } else {
+        console.log("Roster created in dist folder.")
+    }
 
-    console.log("Roster created in dist folder.")
-})}
+    }
+    
+)}
 
 
 managerQuestions()
