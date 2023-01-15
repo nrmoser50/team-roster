@@ -9,7 +9,7 @@ const generateHTML = require('./src/generateHTML');
 const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
-const Intern = require('.lib/Intern');
+const Intern = require('./lib/Intern');
 
 
 // Team members array
@@ -42,6 +42,7 @@ const managerQuestions = () => {
         name: 'officeNumber',
         message: "Please enter the manager's office number"
     }
+  
     ])
     .then(answers => {
         const {name, id, email, officeNumber} = answers;
@@ -52,13 +53,7 @@ const managerQuestions = () => {
 };
 
 const employeeQuestions = () => {
-    return inquirer.prompt([
-         {
-            type: 'list',
-            name: 'additions',
-            message: 'Would you like to add an employee?',
-            choices: ['Yes', 'No']
-         },    
+    return inquirer.prompt([   
         {
             type: 'list',
             name: 'role',
@@ -93,31 +88,31 @@ const employeeQuestions = () => {
             when: ({ role }) => role === "Intern"
         },
         {
-            type: 'confirmation',
-            name: 'confirmNewEmployee',
+            type: 'confirm',
+            name: 'addNewEmployee',
             message: 'Would you like to add another employee?',
-            choices: ['Yes', 'No']
         },
     ])
     .then(newEmployee => {
-        const { role, name, id, email, github, school} = newEmployee;
-        let employee = new Employee (role, name, id, email, github, school);
+        console.log(newEmployee);
+        const { role, name, id, email, github, school } = newEmployee;
+                
 
         if (role === 'Engineer') {
-            employee = new Engineer (name, id, email, github);
-            console.log(employee)
+        let employee = new Engineer (name, id, email, github);
+            // console.log(employee)
+            teamMembers.push(employee)
 
         } else if (role === 'Intern') {
-            employee = new Intern (name, id, email, school);
-
-            console.log(employee)
+        let employee = new Intern (name, id, email, school);
+            teamMembers.push(employee)
+            // console.log(employee)
         }
     
-        teamMembers.push(newEmployee);
-        
-        if (confirmNewEmployee === 'yes') {
-            return employeeQuestions(teamMembers);
+        if (newEmployee.addNewEmployee) {
+            return employeeQuestions();
         } else {
+            // console.log(teamMembers);
             return teamMembers;
         }
         
@@ -126,10 +121,10 @@ const employeeQuestions = () => {
  
 
 // create HTML using fs - file system
-const writeToFile = data => {
-fs.writeFile('./dist/index.html', data, err => {
+const writeToFile = generateHTML => {
+fs.writeFile('./dist/index.html', generateHTML, (err) => {
     if (err) {
-        console.log(err);
+        // console.log(err);
         return;
     } else {
         console.log("Roster created in dist folder.")
@@ -143,13 +138,8 @@ fs.writeFile('./dist/index.html', data, err => {
 managerQuestions()
   .then(employeeQuestions)
   .then(teamMembers => {
-    return generateHTML(teamMembers);
-  })
-  .then(pageHTML => {
-    return writeToFile(pageHTML);
-  })
-  .catch(err => {
- console.log(err);
-  });
+    return generateHTML(teamMembers)
+    
+  }).then(HTMLstring => writeToFile(HTMLstring))
 
 
