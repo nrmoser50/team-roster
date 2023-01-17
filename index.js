@@ -96,6 +96,8 @@ const employeeQuestions = () => {
     .then(newEmployee => {
         console.log(newEmployee);
         const { role, name, id, email, github, school } = newEmployee;
+        let employee = new Employee (name, id, email, role);
+            teamMembers.push(employee)
                 
 
         if (role === 'Engineer') {
