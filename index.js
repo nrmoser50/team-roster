@@ -46,9 +46,9 @@ const managerQuestions = () => {
     ])
     .then(answers => {
         const {name, id, email, officeNumber} = answers;
-        const manager = new Manager (name, id, email, officeNumber);
+        let manager = new Manager (name, id, email, officeNumber);
         teamMembers.push(manager)
-       
+        console.log(teamMembers);
     })
 };
 
@@ -96,8 +96,8 @@ const employeeQuestions = () => {
     .then(newEmployee => {
         console.log(newEmployee);
         const { role, name, id, email, github, school } = newEmployee;
-        let employee = new Employee (name, id, email, role);
-            teamMembers.push(employee)
+        // let employee = new Employee (name, id, email, role);
+        //     teamMembers.push(employee)
                 
 
         if (role === 'Engineer') {
@@ -114,8 +114,8 @@ const employeeQuestions = () => {
         if (newEmployee.addNewEmployee) {
             return employeeQuestions();
         } else {
-            // console.log(teamMembers);
-            return teamMembers;
+            console.log(teamMembers);
+            return;
         }
         
     })
@@ -139,7 +139,8 @@ fs.writeFile('./dist/index.html', generateHTML, (err) => {
 
 managerQuestions()
   .then(employeeQuestions)
-  .then(teamMembers => {
+  .then(() => {
+    console.log(teamMembers)
     return generateHTML(teamMembers)
     
   }).then(HTMLstring => writeToFile(HTMLstring))

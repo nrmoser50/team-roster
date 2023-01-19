@@ -1,6 +1,6 @@
 function createManagerCard(manager) {
     return `
-    <div class="card">
+    <div class="card" style="width:12em">
         <div class="card-title">
             <h3>${manager.name}</h3>
             <h4>Manager</h4><i class="fa-sharp fa-solid fa-user"></i>
@@ -8,7 +8,7 @@ function createManagerCard(manager) {
 
         <div class="card-body">
             <p class="id">ID: ${manager.id}</p>
-            <p class="email">Email: ${manager.email}</p>
+            <p class="email">Email:<a href="mailto:${manager.email}"> ${manager.email}</a></p>
             <p class="office">Office Number: ${manager.officeNumber}</p>
         </div>
 </div>
@@ -17,16 +17,16 @@ function createManagerCard(manager) {
 
 function createEngineerCard(engineer) {
     return `
-    <div class="card">
+    <div class="card" style="width:12em">
     <div class="card-title">
         <h3>${engineer.name}</h3>
         <h4>Engineer</h4><i class="fa-sharp fa-solid fa-wrench-simple"></i>
     </div>
 
     <div class="card-body">
-        <p class = "id">ID: ${engineer.id}</p>
-        <p class = "email">Email: ${engineer.email}</p>
-        <p class = "github">Github: ${engineer.github}</p>
+        <p class="id">ID: ${engineer.id}</p>
+        <p class="email">Email: ${engineer.email}</p>
+        <p class="github">Github:<a href="https://github.com/${engineer.github}"> ${engineer.github}</a></p>
     </div>
 
 </div>
@@ -35,16 +35,16 @@ function createEngineerCard(engineer) {
 
 function createInternCard(intern) {
     return `
-    <div class="card">
+    <div class="card" style="width:12em">
     <div class="card-title">
         <h3>${intern.name}</h3>
-        <h4>Engineer</h4><i class="fa-solid fa-circle-user"></i>
+        <h4>Intern</h4><i class="fa-solid fa-circle-user"></i>
     </div>
 
     <div class="card-body">
         <p class = "id">ID: ${intern.id}</p>
         <p class = "email">Email: ${intern.email}</p>
-        <p class = "github">Github: ${intern.school}</p>
+        <p class = "school">School: ${intern.school}</p>
     </div>
 
 </div>
@@ -75,7 +75,7 @@ module.exports = function(team){
 <body>
     <div class="container">
         <header style="height:100px; color:black; background-color:aqua; width: 100%"><h1 style = "text-align:center; ">Roster</h1></header>
-        <main style="display:flex">
+        <main style="display:flex; justify-content:space-between; flex-wrap:wrap;">
         ${insertCard(team)}
         </main>
     </div>
