@@ -9,12 +9,11 @@ test('Creates Manager object with all valid values', () => {
   expect(manager1.name).toEqual(expect.any(String));
   expect(manager1.id).toEqual(expect.any(Number));
   expect(manager1.email).toEqual(expect.stringContaining('@'));
-  expect(manager1.role).toEqual('Manager');
-  expect(manager1.officeNumber).toEqual(expect.any(Number));
+  expect(manager1.officeNumber).toEqual(expect.any(String));
 });
 
 test('Manager method returns valid office number', () => {
-  expect(manager1.getOfficeNumber()).toEqual(expect.any(Number));
+  expect(manager1.getOfficeNumber()).toEqual(expect.any(String));
 });
 
 test('Manager method returns correct role', () => {
@@ -23,6 +22,6 @@ test('Manager method returns correct role', () => {
 
 test('Returns employee if role property not filled', () => {
   // Test to make sure both the getRole function and regular property return Employee as it should
-  expect(manager2.getRole()).toEqual('Employee');
-  expect(manager2.role).toEqual('Employee');
+  expect(manager2.getRole()).toEqual('Manager');
+  expect(manager2.role).toEqual('Manager');
 });

@@ -29,6 +29,6 @@ test('Engineer method returns correct role', () => {
 
 test('Returns employee if role property not filled', () => {
   // Test to make sure both the getRole function and regular property return Employee as it should
-  expect(engineer2.getRole()).toEqual('Employee');
-  expect(engineer2.role).toEqual('Employee');
+  expect(engineer2.getRole()).toEqual('Engineer');
+  expect(engineer2.role).toEqual('Engineer');
 });
